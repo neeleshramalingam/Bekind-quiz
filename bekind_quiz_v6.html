@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>BE KIND – Skill Matrix</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Fredoka+One&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:#58cc02; --green-dark:#46a302; --green-light:#d7f5b1;
+  --red:#ff4b4b; --red-light:#ffd0d0;
+  --blue:#1cb0f6; --blue-dark:#0a95d4; --blue-light:#e8f7ff;
+  --gold:#ffc800; --gold-dark:#c49000;
+  --purple:#ce82ff; --purple-dark:#9b42e8; --purple-light:#f3e8ff;
+  --orange:#ff9600; --orange-dark:#cc7800; --orange-light:#fff3e0;
+  --bg:#f7f9fc; --card:#fff; --text:#3c3c3c; --text-light:#888;
+  --border:#e5e5e5; --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;align-items:center;color:var(--text);overflow-x:hidden;}
+
+/* SCREENS */
+.screen{display:none;width:100%;max-width:480px;min-height:100vh;flex-direction:column;}
+.screen.active{display:flex;}
+
+/* ═══ HOME SCREEN ═══ */
+#home{background:linear-gradient(165deg,#1cb0f6 0%,#005f99 100%);align-items:center;padding:36px 24px 48px;text-align:center;}
+.owl{font-size:80px;animation:bounce 2s infinite;}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+#home h1{font-family:'Fredoka One',cursive;font-size:52px;color:#fff;letter-spacing:3px;text-shadow:0 5px 0 rgba(0,0,0,0.18);margin:4px 0 6px;}
+#home .tagline{color:rgba(255,255,255,0.88);font-size:15px;font-weight:700;margin-bottom:28px;}
+
+/* Mode cards */
+.mode-cards{display:flex;flex-direction:column;gap:14px;width:100%;max-width:340px;margin-bottom:28px;}
+.mode-card{
+  background:#fff;border-radius:20px;padding:20px 22px;
+  display:flex;align-items:center;gap:18px;
+  box-shadow:0 6px 0 rgba(0,0,0,0.12);
+  cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;text-align:left;
+  border:none;width:100%;
+}
+.mode-card:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,0.12);}
+.mode-icon{font-size:40px;flex-shrink:0;}
+.mode-info h3{font-family:'Fredoka One',cursive;font-size:20px;color:var(--text);}
+.mode-info p{font-size:12px;font-weight:700;color:var(--text-light);margin-top:2px;}
+.mode-card.test-card .mode-info h3{color:#d44;}
+.mode-card.learn-card .mode-info h3{color:var(--blue-dark);}
+.badge-strip{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+.home-badge{background:rgba(255,255,255,0.2);border-radius:12px;padding:10px 16px;color:#fff;font-weight:800;font-size:12px;text-align:center;}
+.home-badge span{display:block;font-size:22px;}
+
+/* ═══ LEVEL SELECT ═══ */
+#levelSelect{background:var(--bg);}
+.level-header{background:linear-gradient(135deg,#1cb0f6,#005f99);padding:32px 24px 28px;color:#fff;text-align:center;}
+.level-header .back-btn{position:absolute;left:20px;top:20px;background:rgba(255,255,255,0.2);border:none;border-radius:10px;color:#fff;font-size:20px;padding:6px 12px;cursor:pointer;}
+.level-header h2{font-family:'Fredoka One',cursive;font-size:30px;letter-spacing:1px;}
+.level-header p{font-size:14px;opacity:0.9;font-weight:700;margin-top:4px;}
+.levels-body{padding:24px 20px 40px;display:flex;flex-direction:column;gap:16px;position:relative;}
+
+.level-card{
+  background:#fff;border-radius:20px;padding:22px 20px;
+  display:flex;align-items:center;gap:16px;
+  box-shadow:0 5px 0 var(--border);
+  cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;
+  border:none;width:100%;text-align:left;
+  border-left:6px solid transparent;
+}
+.level-card:active{transform:translateY(2px);box-shadow:0 3px 0 var(--border);}
+.level-card.easy{border-left-color:var(--green);}
+.level-card.medium{border-left-color:var(--orange);}
+.level-card.hard{border-left-color:var(--red);}
+.level-card.all{border-left-color:var(--purple);}
+.level-icon{font-size:42px;flex-shrink:0;}
+.level-info{flex:1;}
+.level-info h3{font-family:'Fredoka One',cursive;font-size:22px;}
+.level-card.easy .level-info h3{color:var(--green-dark);}
+.level-card.medium .level-info h3{color:var(--orange-dark);}
+.level-card.hard .level-info h3{color:var(--red);}
+.level-card.all .level-info h3{color:var(--purple-dark);}
+.level-info p{font-size:13px;font-weight:700;color:var(--text-light);margin-top:2px;}
+.level-q-count{font-family:'Fredoka One',cursive;font-size:22px;color:var(--text-light);}
+.level-stars{font-size:14px;margin-top:4px;}
+.path-connector{width:3px;height:20px;background:var(--border);margin:0 auto 0 34px;border-radius:4px;}
+
+/* ═══ LEARN SCREEN ═══ */
+#learn{background:var(--bg);}
+.learn-top{background:#fff;padding:16px 20px;display:flex;align-items:center;gap:14px;box-shadow:0 2px 8px rgba(0,0,0,0.06);position:sticky;top:0;z-index:10;}
+.back-btn2{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);padding:4px 8px;border-radius:8px;}
+.learn-progress-wrap{flex:1;height:14px;background:#e5e5e5;border-radius:8px;overflow:hidden;}
+.learn-progress-fill{height:100%;background:var(--blue);border-radius:8px;transition:width 0.5s cubic-bezier(.4,0,.2,1);}
+.learn-counter{font-weight:800;font-size:13px;color:var(--text-light);white-space:nowrap;}
+.learn-body{flex:1;padding:24px 20px 120px;overflow-y:auto;}
+.learn-card{background:#fff;border-radius:20px;padding:24px;margin-bottom:20px;box-shadow:0 4px 0 var(--border);}
+.learn-q-num{font-size:12px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.learn-q-text{font-size:18px;font-weight:800;color:var(--text);line-height:1.4;margin-bottom:16px;}
+.learn-answer-box{background:var(--blue-light);border:2px solid var(--blue);border-radius:14px;padding:16px;display:flex;align-items:center;gap:12px;}
+.learn-answer-box .ans-label{font-size:12px;font-weight:800;color:var(--blue-dark);text-transform:uppercase;letter-spacing:1px;}
+.learn-answer-box .ans-value{font-size:17px;font-weight:800;color:var(--blue-dark);}
+.learn-note{font-size:13px;font-weight:700;color:var(--text-light);margin-top:10px;padding:10px 14px;background:#f9f9f9;border-radius:10px;}
+.learn-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;padding:16px 24px 32px;box-shadow:0 -4px 16px rgba(0,0,0,0.08);display:flex;gap:12px;}
+.learn-nav-btn{flex:1;padding:15px;font-family:'Fredoka One',cursive;font-size:17px;color:#fff;border:none;border-radius:50px;cursor:pointer;transition:transform 0.1s,box-shadow 0.1s;}
+.learn-prev{background:#b0b0b0;box-shadow:0 4px 0 #888;}
+.learn-next{background:var(--blue);box-shadow:0 4px 0 var(--blue-dark);}
+.learn-finish{background:var(--green);box-shadow:0 4px 0 var(--green-dark);}
+.learn-nav-btn:active{transform:translateY(2px);box-shadow:none;}
+.topic-pill{display:inline-block;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px;}
+.topic-easy{background:var(--green-light);color:var(--green-dark);}
+.topic-medium{background:var(--orange-light);color:var(--orange-dark);}
+.topic-hard{background:var(--purple-light);color:var(--purple-dark);}
+
+/* ═══ QUIZ SCREEN ═══ */
+#quiz{background:var(--bg);}
+.top-bar{background:#fff;padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);position:sticky;top:0;z-index:10;}
+.close-btn{background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);padding:4px;border-radius:8px;}
+.progress-bar-wrap{flex:1;height:14px;background:#e5e5e5;border-radius:8px;overflow:hidden;}
+.progress-bar-fill{height:100%;border-radius:8px;transition:width 0.5s cubic-bezier(.4,0,.2,1);}
+.fill-easy{background:var(--green);}
+.fill-medium{background:var(--orange);}
+.fill-hard{background:var(--red);}
+.fill-all{background:var(--purple);}
+.q-counter{font-weight:800;font-size:13px;color:var(--text-light);white-space:nowrap;}
+.hearts{font-size:18px;letter-spacing:2px;}
+.quiz-body{flex:1;padding:20px 20px 110px;overflow-y:auto;}
+.level-pill{display:inline-block;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;}
+.pill-easy{background:var(--green-light);color:var(--green-dark);}
+.pill-medium{background:var(--orange-light);color:var(--orange-dark);}
+.pill-hard{background:var(--purple-light);color:var(--purple-dark);}
+.pill-all{background:#ede8ff;color:var(--purple-dark);}
+.streak-badge{display:inline-flex;align-items:center;gap:6px;background:#fff3cd;border:2px solid var(--gold);border-radius:20px;padding:5px 14px;font-weight:800;font-size:12px;color:#8a6000;margin-bottom:12px;animation:pop 0.3s ease;}
+@keyframes pop{0%{transform:scale(0.7)}70%{transform:scale(1.1)}100%{transform:scale(1)}}
+.question-label{font-size:13px;font-weight:800;color:var(--blue);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.question-text{font-size:19px;font-weight:800;color:var(--text);line-height:1.45;margin-bottom:20px;}
+.mascot-hint{display:flex;align-items:flex-end;gap:12px;margin-bottom:20px;}
+.mascot{font-size:42px;flex-shrink:0;}
+.hint-bubble{background:#fff;border:2px solid var(--border);border-radius:16px 16px 16px 4px;padding:10px 14px;font-size:13px;font-weight:700;color:var(--text-light);box-shadow:0 2px 6px rgba(0,0,0,0.06);}
+.options{display:flex;flex-direction:column;gap:12px;}
+.option-btn{background:#fff;border:2.5px solid var(--border);border-radius:var(--radius);padding:15px 18px;font-family:'Nunito',sans-serif;font-size:15px;font-weight:700;color:var(--text);cursor:pointer;text-align:left;display:flex;align-items:center;gap:14px;transition:border-color 0.15s,background 0.15s,transform 0.1s;box-shadow:0 3px 0 var(--border);}
+.option-btn:hover:not(:disabled){border-color:var(--blue);background:var(--blue-light);transform:translateY(-1px);}
+.option-btn:active:not(:disabled){transform:translateY(2px);box-shadow:none;}
+.option-tag{width:32px;height:32px;border-radius:8px;background:#f0f0f0;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0;transition:background 0.15s;}
+.option-btn.correct{border-color:var(--green)!important;background:var(--green-light)!important;animation:correctPulse 0.4s ease;}
+.option-btn.correct .option-tag{background:var(--green);color:#fff;}
+@keyframes correctPulse{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
+.option-btn.wrong{border-color:var(--red)!important;background:var(--red-light)!important;animation:shake 0.4s ease;}
+.option-btn.wrong .option-tag{background:var(--red);color:#fff;}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.option-btn:disabled{cursor:default;}
+
+/* feedback */
+.feedback-panel{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;padding:20px 24px 32px;border-radius:24px 24px 0 0;display:none;align-items:center;justify-content:space-between;gap:16px;z-index:20;box-shadow:0 -4px 20px rgba(0,0,0,0.12);}
+.feedback-panel.correct-fb{background:var(--green-light);display:flex;}
+.feedback-panel.wrong-fb{background:var(--red-light);display:flex;}
+.fb-left{display:flex;align-items:center;gap:12px;}
+.fb-icon{font-size:34px;}
+.fb-text h3{font-size:17px;font-weight:900;}
+.fb-text p{font-size:13px;font-weight:700;color:var(--text-light);margin-top:2px;}
+.fb-text .correct-ans{color:var(--green-dark);font-weight:800;}
+.next-btn{flex-shrink:0;padding:13px 24px;font-family:'Fredoka One',cursive;font-size:17px;color:#fff;border:none;border-radius:50px;cursor:pointer;transition:transform 0.1s,box-shadow 0.1s;}
+.next-btn.correct-next{background:var(--green);box-shadow:0 4px 0 var(--green-dark);}
+.next-btn.wrong-next{background:var(--red);box-shadow:0 4px 0 #cc0000;}
+.next-btn:active{transform:translateY(2px);box-shadow:none;}
+
+/* ═══ RESULTS ═══ */
+#results{align-items:center;justify-content:flex-start;padding:0;overflow-y:auto;}
+.results-hero{width:100%;padding:40px 24px 32px;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.results-hero.hero-legend{background:linear-gradient(160deg,#58cc02,#2d8a00);}
+.results-hero.hero-great{background:linear-gradient(160deg,#ffc800,#b88000);}
+.results-hero.hero-good{background:linear-gradient(160deg,#1cb0f6,#005f99);}
+.results-hero.hero-keep{background:linear-gradient(160deg,#ce82ff,#7a3ab8);}
+.trophy{font-size:90px;animation:pop 0.6s ease;}
+#results h1{font-family:'Fredoka One',cursive;font-size:40px;color:#fff;margin:10px 0 6px;}
+.result-subtitle{color:rgba(255,255,255,0.9);font-size:16px;font-weight:700;}
+.score-card{background:#fff;border-radius:24px;padding:24px 28px;margin:20px;width:calc(100% - 40px);max-width:400px;box-shadow:0 8px 0 rgba(0,0,0,0.08);}
+.score-big{font-family:'Fredoka One',cursive;font-size:68px;color:var(--green);line-height:1;}
+.score-label{font-size:13px;color:var(--text-light);font-weight:700;margin-top:2px;}
+.stats-row{display:flex;gap:12px;margin-top:16px;}
+.stat{flex:1;background:var(--bg);border-radius:14px;padding:12px 8px;text-align:center;}
+.stat-num{font-family:'Fredoka One',cursive;font-size:26px;}
+.stat-label{font-size:10px;font-weight:800;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;}
+.stat.s-correct .stat-num{color:var(--green);}
+.stat.s-wrong .stat-num{color:var(--red);}
+.stat.s-xp .stat-num{color:var(--gold-dark);}
+.result-actions{padding:0 20px 40px;display:flex;flex-direction:column;gap:12px;width:100%;}
+.action-btn{padding:16px;font-family:'Fredoka One',cursive;font-size:18px;border:none;border-radius:50px;cursor:pointer;transition:transform 0.1s,box-shadow 0.1s;width:100%;}
+.retry-btn{background:var(--green);color:#fff;box-shadow:0 5px 0 var(--green-dark);}
+.home-btn{background:#fff;color:var(--blue-dark);box-shadow:0 5px 0 var(--border);}
+.action-btn:active{transform:translateY(2px);box-shadow:none;}
+.congrats-msg{font-size:15px;font-weight:800;color:var(--text);margin-bottom:4px;}
+.congrats-sub{font-size:13px;font-weight:700;color:var(--text-light);margin-bottom:16px;}
+
+/* TOAST & CONFETTI */
+.xp-toast{position:fixed;top:80px;left:50%;transform:translateX(-50%) translateY(-30px);background:var(--gold);color:#5a3a00;font-family:'Fredoka One',cursive;font-size:17px;padding:8px 20px;border-radius:30px;box-shadow:0 4px 0 var(--gold-dark);opacity:0;transition:all 0.3s;z-index:100;pointer-events:none;}
+.xp-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+#confetti-canvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:999;}
+
+@media(max-height:680px){.mascot{display:none;}.question-text{font-size:16px;}}
+</style>
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<div class="xp-toast" id="xpToast">+10 XP 🌟</div>
+
+<!-- ════ HOME ════ -->
+<div class="screen active" id="home">
+  <div class="owl">🦉</div>
+  <h1>BE KIND</h1>
+  <p class="tagline">APU & PU2 Machine Skill Matrix<br>Test · Learn · Master</p>
+
+  <div class="mode-cards">
+    <button class="mode-card test-card" onclick="goMode('test')">
+      <div class="mode-icon">📝</div>
+      <div class="mode-info">
+        <h3>🎯 Test Mode</h3>
+        <p>Answer questions • Earn XP • Track score</p>
+      </div>
+    </button>
+    <button class="mode-card learn-card" onclick="goMode('learn')">
+      <div class="mode-icon">📖</div>
+      <div class="mode-info">
+        <h3>📚 Learning Mode</h3>
+        <p>Study answers • No pressure • Build knowledge</p>
+      </div>
+    </button>
+  </div>
+
+  <div class="badge-strip">
+    <div class="home-badge"><span>54</span>Questions</div>
+    <div class="home-badge"><span>3</span>Levels</div>
+    <div class="home-badge"><span>🏆</span>Badges</div>
+    <div class="home-badge"><span>⚡</span>XP</div>
+  </div>
+  <div style="margin-top:18px;text-align:center;display:flex;flex-direction:column;gap:8px;width:100%;max-width:340px;">
+    <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:10px 16px;">
+      <p style="color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;margin-bottom:2px;">✍️ 14 Questions Contributed by</p>
+      <p style="color:#fff;font-size:13px;font-weight:800;">Balaji Sambath — ME Engineer</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:10px 16px;">
+      <p style="color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;margin-bottom:2px;">✏️ Question Modifications by</p>
+      <p style="color:#fff;font-size:13px;font-weight:800;">Iyappan Murugan — ME Engineer</p>
+    </div>
+    <div style="background:rgba(255,255,255,0.15);border-radius:14px;padding:10px 16px;">
+      <p style="color:rgba(255,255,255,0.75);font-size:11px;font-weight:700;margin-bottom:2px;">🎯 15 Questions Selected by</p>
+      <p style="color:#fff;font-size:13px;font-weight:800;">Senthil Murugan H — ME Engineer</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════ LEVEL SELECT ════ -->
+<div class="screen" id="levelSelect" style="position:relative;">
+  <div class="level-header" style="position:relative;">
+    <button class="back-btn" onclick="showScreen('home')" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.25);border:none;border-radius:10px;color:#fff;font-size:18px;padding:6px 12px;cursor:pointer;">←</button>
+    <h2 id="levelSelectTitle">Choose Your Level</h2>
+    <p id="levelSelectSub">Pick a difficulty to begin</p>
+  </div>
+  <div class="levels-body">
+    <button class="level-card easy" onclick="startSession('easy')">
+      <div class="level-icon">🌱</div>
+      <div class="level-info">
+        <h3>Easy</h3>
+        <p>Basic terminology & full forms</p>
+        <div class="level-stars">⭐ Beginner Friendly</div>
+      </div>
+      <div class="level-q-count" id="easyCount">—</div>
+    </button>
+    <div class="path-connector"></div>
+    <button class="level-card medium" onclick="startSession('medium')">
+      <div class="level-icon">🔥</div>
+      <div class="level-info">
+        <h3>Medium</h3>
+        <p>Machine values & process parameters</p>
+        <div class="level-stars">⭐⭐ Intermediate</div>
+      </div>
+      <div class="level-q-count" id="mediumCount">—</div>
+    </button>
+    <div class="path-connector"></div>
+    <button class="level-card hard" onclick="startSession('hard')">
+      <div class="level-icon">💎</div>
+      <div class="level-info">
+        <h3>Hard</h3>
+        <p>Precise measurements & specifications</p>
+        <div class="level-stars">⭐⭐⭐ Expert</div>
+      </div>
+      <div class="level-q-count" id="hardCount">—</div>
+    </button>
+    <div class="path-connector"></div>
+    <button class="level-card all" onclick="startSession('all')">
+      <div class="level-icon">🚀</div>
+      <div class="level-info">
+        <h3>All Levels</h3>
+        <p>Complete skill matrix challenge</p>
+        <div class="level-stars">⭐⭐⭐ Master Challenge</div>
+      </div>
+      <div class="level-q-count" id="allCount">—</div>
+    </button>
+  </div>
+</div>
+
+<!-- ════ LEARN SCREEN ════ -->
+<div class="screen" id="learn">
+  <div class="learn-top">
+    <button class="back-btn2" onclick="showScreen('levelSelect')">←</button>
+    <div class="learn-progress-wrap"><div class="learn-progress-fill" id="learnBar"></div></div>
+    <div class="learn-counter" id="learnCounter">1 / 10</div>
+  </div>
+  <div class="learn-body" id="learnBody"></div>
+  <div class="learn-nav">
+    <button class="learn-nav-btn learn-prev" id="learnPrev" onclick="learnNav(-1)">← Prev</button>
+    <button class="learn-nav-btn learn-next" id="learnNext" onclick="learnNav(1)">Next →</button>
+  </div>
+</div>
+
+<!-- ════ QUIZ SCREEN ════ -->
+<div class="screen" id="quiz">
+  <div class="top-bar">
+    <button class="close-btn" onclick="if(confirm('Quit quiz?'))showScreen('home')">✕</button>
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+    <div class="q-counter" id="qCounter">1/10</div>
+    <div class="hearts" id="hearts">❤️❤️❤️</div>
+  </div>
+  <div class="quiz-body" id="quizBody"></div>
+  <div class="feedback-panel" id="feedbackPanel">
+    <div class="fb-left">
+      <div class="fb-icon" id="fbIcon"></div>
+      <div class="fb-text" id="fbText"></div>
+    </div>
+    <button class="next-btn" id="nextBtn" onclick="nextQuestion()">NEXT</button>
+  </div>
+</div>
+
+<!-- ════ RESULTS ════ -->
+<div class="screen" id="results">
+  <div class="results-hero" id="resultsHero">
+    <div class="trophy" id="trophy">🏆</div>
+    <h1 id="resultTitle">Done!</h1>
+    <p class="result-subtitle" id="resultSub">Here's your score</p>
+  </div>
+  <div class="score-card">
+    <div class="score-big" id="scorePercent">0%</div>
+    <div class="score-label">ACCURACY</div>
+    <div class="stats-row">
+      <div class="stat s-correct"><div class="stat-num" id="correctCount">0</div><div class="stat-label">Correct</div></div>
+      <div class="stat s-wrong"><div class="stat-num" id="wrongCount">0</div><div class="stat-label">Wrong</div></div>
+      <div class="stat s-xp"><div class="stat-num" id="xpCount">0</div><div class="stat-label">XP</div></div>
+    </div>
+  </div>
+  <div class="result-actions">
+    <p class="congrats-msg" id="congratsMsg"></p>
+    <p class="congrats-sub" id="congratsSub"></p>
+    <button class="action-btn retry-btn" onclick="retryQuiz()">🔄 Try Again</button>
+    <button class="action-btn home-btn" onclick="showScreen('home')">🏠 Home</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+// ALL 54 QUESTIONS with levels
+// easy = full forms, basic concepts
+// medium = process values, machine params
+// hard = precise specs, measurements
+// ──────────────────────────────────────
+// ✍️  14 questions contributed by: Balaji Sambath, ME Engineer
+// ✏️  Question modifications by:   Iyappan Murugan, ME Engineer
+// ══════════════════════════════════════
+const ALL_QUESTIONS = [
+  // ── EASY (Full forms, basic concepts) ──
+  // ✏️ Modifications reviewed & updated by Iyappan Murugan, ME Engineer
+  {level:'easy', q:"What does APU stand for?", correct:"C",
+   opts:["Automated Pressure Unit","Applied Processing Utility","Advanced Polyurethane Unit","Automatic Paint Unit"],
+   hint:"APU is the polyurethane-based glue material used in this process 🧴 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'easy', q:"What does PU2 stand for?", correct:"A",
+   opts:["Polyurethane 2 (second glue dispenser)","Power Unit 2","Pressure Utility 2","Polymer Unit 2"],
+   hint:"PU2 is the second glue dispensing machine 🤖"},
+  {level:'easy', q:"What does CCD stand for?", correct:"A",
+   opts:["Charge Coupled Device","Camera Control Display","Circuit Control Driver","Component Capture Device"],
+   hint:"CCD is commonly used in imaging and sensing technology 📷 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'easy', q:"What does OEE stand for?", correct:"D",
+   opts:["Operational Efficiency Estimator","Output Energy Evaluation","Overall Equipment Evaluation","Overall Equipment Effectiveness"],
+   hint:"OEE is a key performance indicator in manufacturing 📊"},
+  {level:'easy', q:"What does PPE stand for?", correct:"A",
+   opts:["Personal Protective Equipment","Process Performance Evaluation","Pressure Protection Element","Plant Production Efficiency"],
+   hint:"Safety first! PPE keeps workers protected on the shop floor 🦺"},
+  {level:'easy', q:"What type of robot is used in APU machines?", correct:"B",
+   opts:["4-Axis KUKA Robot","6-Axis FANUC Robot","SCARA ABB Robot","Delta Yaskawa Robot"],
+   hint:"FANUC is a globally renowned robotics brand 🤖 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'easy', q:"What is the use of the NK-2 cup?", correct:"D",
+   opts:["To measure pressure","To collect waste glue","To store UV pigment","To measure viscosity time"],
+   hint:"NK-2 cup measures how long glue takes to flow — that is viscosity! 🥤"},
+  {level:'easy', q:"What is the use of the auto-purge button in APU machines?", correct:"D",
+   opts:["To reset the machine","To clean the dispensing area","To calibrate pressure","To avoid needle blockage"],
+   hint:"Think about keeping the needle clear and flowing! 💉"},
+  {level:'easy', q:"How many fixture clamps are there in the FANUC robot end effector at APU machines?", correct:"C",
+   opts:["2","3","4","6"],
+   hint:"Clamps secure the workpiece firmly in the end effector 🔩 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'easy', q:"What is the name of the needle used for glue dispensing at APU machines (NM104)?", correct:"C",
+   opts:["25G 8.5 mm","26G 9.0 mm","27G 9.5 mm","28G 10.0 mm"],
+   hint:"The gauge and length determine flow precision 📏"},
+  {level:'easy', q:"What is the glue cartridge capacity used in the APU process?", correct:"D",
+   opts:["3 cc","5 cc","8 cc","10 cc"],
+   hint:"Larger cartridge means longer dispensing runs! 🧪 | Selected by Senthil Murugan H, ME Engineer"},
+
+  // ── MEDIUM (Machine values, process parameters) ──
+  {level:'medium', q:"What is the standard cycle time per band in APU (NM104 / NM106)?", correct:"A",
+   opts:["180 seconds","170 seconds","160 seconds","150 seconds"],
+   hint:"Standard cycle timing keeps production on track ⏱️ | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'medium', q:"What is the total output per day in APU machines?", correct:"B",
+   opts:["120–130 units","134–140 units","141–150 units","150–160 units"],
+   hint:"Daily production targets matter! 📦"},
+  {level:'medium', q:"How many locations are there in APU dispensing (NM106)?", correct:"C",
+   opts:["44 locations","48 locations","51 locations","56 locations"],
+   hint:"Count carefully — dispensing precision matters! 💧 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'medium', q:"How many locations are there in APU dispensing (NM104)?", correct:"B",
+   opts:["46 locations","47 locations","50 locations","51 locations"],
+   hint:"NM104 has fewer locations than NM106 🔢"},
+  {level:'medium', q:"What is the pot life (expiry time) of PU glue once prepared?", correct:"C",
+   opts:["1 hour","2 hours","3 hours","6 hours"],
+   hint:"Fresh glue = better bonding. Don't let it expire! ⏳"},
+  {level:'medium', q:"What is the curing time after APU dispensing process?", correct:"C",
+   opts:["30 minutes","45 minutes","60 minutes","90 minutes"],
+   hint:"Proper curing time ensures strong adhesion ⏰ | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'medium', q:"What temperature is maintained at the oven station for curing?", correct:"C",
+   opts:["60 ± 5°C","65 ± 5°C","70 ± 5°C","75 ± 5°C"],
+   hint:"Temperature must be controlled precisely for correct curing 🌡️"},
+  {level:'medium', q:"How often should valve setup periodic maintenance be carried out?", correct:"C",
+   opts:["Every 8 hours","Every 12 hours","Every 24 hours","Every 48 hours"],
+   hint:"Regular maintenance prevents unexpected downtime 🔧"},
+  {level:'medium', q:"What is the needle wiping interval in APU machines?", correct:"B",
+   opts:["Every 10 seconds","Every 15 seconds","Every 20 seconds","Every 25 seconds"],
+   hint:"Frequent wiping keeps the needle clean and precise 🧹 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'medium', q:"What is the needle wiping interval for PU2 machines?", correct:"C",
+   opts:["Every 10 seconds","Every 15 seconds","Every 20 seconds","Every 25 seconds"],
+   hint:"PU2 has a slightly longer wiping interval than APU 🧹"},
+  {level:'medium', q:"What is the viscosity of PU glue (in seconds)?", correct:"C",
+   opts:["18 ± 1","20 ± 1","22 ± 1","25 ± 2"],
+   hint:"Correct viscosity ensures consistent glue flow 🌊 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'medium', q:"What is the needle calibration tolerance at APU machines?", correct:"B",
+   opts:["± 0.2 mm","± 0.5 mm","± 1.0 mm","± 1.5 mm"],
+   hint:"Tight tolerances mean better quality output 🎯"},
+  {level:'medium', q:"What type of filter cloth is used in PU glue preparation?", correct:"C",
+   opts:["100 mesh cloth","150 mesh cloth","200 mesh cloth","250 mesh cloth"],
+   hint:"Finer mesh = cleaner glue = fewer defects 🕸️"},
+
+  // ── HARD (Precise specs & measurements) ──
+  {level:'hard', q:"What is the pressure value for glue dispensing at PU process (NM106)?", correct:"B",
+   opts:["3–10 kPa","5–15 kPa","8–18 kPa","10–20 kPa"],
+   hint:"Pressure is measured in kPa — keep NM106 range in mind 💨 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'hard', q:"What is the pressure value for glue dispensing at PU process (NM104)?", correct:"C",
+   opts:["3–10 kPa","5–15 kPa","8–15 kPa","10–20 kPa"],
+   hint:"NM104 requires a slightly higher minimum pressure than NM106 💨"},
+  {level:'hard', q:"What is the standard dispensing flow time at PU process (NM106)?", correct:"C",
+   opts:["6.0–6.5 seconds","6.5–7.0 seconds","7.0–7.5 seconds","7.5–8.0 seconds"],
+   hint:"Droplet timing is critical for glue consistency at NM106 💧 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'hard', q:"What is the dispensing droplet time for PU process (NM104)?", correct:"A",
+   opts:["6.3–6.5 seconds","6.5–7.0 seconds","7.0–7.5 seconds","5.8–6.2 seconds"],
+   hint:"NM104 has a slightly faster droplet time ⏲️"},
+  {level:'hard', q:"How much additive is used to prepare PU glue (Ratio 1:2)?", correct:"C",
+   opts:["63 grams","150 grams","64 grams","10 grams"],
+   hint:"Precision in mixing is everything — check Ratio 1:2 carefully! ⚗️ | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'hard', q:"What is the total weight of hardener used in PU glue preparation (Ratio 1:2)?", correct:"B",
+   opts:["3 grams","11 grams","8 grams","10 grams"],
+   hint:"Hardener amount changes with ratio — 1:2 needs more! 🧪"},
+  {level:'hard', q:"What is the total weight of paint used in PU glue preparation (NM104 - Ratio 1:1)?", correct:"D",
+   opts:["50 grams","60 grams","65 grams","70 grams"],
+   hint:"Paint is the heaviest component in the glue mix 🎨"},
+  {level:'hard', q:"What is the total weight of thinner used in PU glue preparation (NM104 - Ratio 1:1)?", correct:"A",
+   opts:["0–2 grams","2–5 grams","5–8 grams","8–10 grams"],
+   hint:"Thinner is used very sparingly in the formula 💡"},
+  {level:'hard', q:"What is the total weight of RO water used in PU glue preparation (NM104 - Ratio 1:1)?", correct:"B",
+   opts:["0–3 grams","0–5 grams","5–10 grams","10–15 grams"],
+   hint:"Purified RO water keeps the formula stable 💧"},
+  {level:'hard', q:"What is the total weight of UV pigment used in glue preparation (NM104 - Ratio 1:1)?", correct:"B",
+   opts:["0.01–0.1 grams","0.05–0.2 grams","0.2–0.5 grams","0.5–1.0 grams"],
+   hint:"UV pigment is used in extremely small quantities ✨"},
+  {level:'hard', q:"Total weight of the prepared glue should be:", correct:"C",
+   opts:["215 ± 10 grams","225 ± 10 grams","235 ± 10 grams","245 ± 10 grams"],
+   hint:"Add up all components carefully to reach the target total ⚖️"},
+  {level:'hard', q:"What is the bottom controller pressure value for APU machine 104?", correct:"C",
+   opts:["0.20–0.30 MPa","0.30–0.40 MPa","0.40–0.50 MPa","0.50–0.60 MPa"],
+   hint:"Bottom controller pressure is measured in MPa — keep the right decimal range! 🔧 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'hard', q:"What is the APU and PU2 top controller pressure value for machine 104?", correct:"C",
+   opts:["5–10 MPa","6–12 MPa","8–15 MPa","10–18 MPa"],
+   hint:"Top controller pressure is different from bottom pressure! ⬆️"},
+  {level:'hard', q:"What is the allowable deviation of height sensor value at VDVI machine?", correct:"B",
+   opts:["± 0.2 mm","± 0.4 mm","± 0.6 mm","± 1.0 mm"],
+   hint:"VDVI sensor ensures precise vertical positioning 📐"},
+  {level:'hard', q:"What is the required cross-section thickness for A and B datum?", correct:"B",
+   opts:["1–30 microns","5–70 microns","10–100 microns","20–150 microns"],
+   hint:"A and B datum positions have a tighter tolerance range 🔬 | Selected by Senthil Murugan H, ME Engineer"},
+  {level:'hard', q:"What is the required cross-section thickness for C and E location?", correct:"D",
+   opts:["10–100 microns","15–120 microns","20–130 microns","25–150 microns"],
+   hint:"C and E locations allow a slightly wider tolerance range 🔬"},
+
+  // ── CONTRIBUTED BY BALAJI SAMBATH, ME ENGINEER ──
+  {level:'medium', q:"What is the man-machine ratio in the APU stage?", correct:"B",
+   opts:["6:1","8:1","10:1","12:1"],
+   hint:"Each operator handles multiple APU machines simultaneously 🤖 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the man-machine ratio in the PU2 stage?", correct:"C",
+   opts:["3:1","4:1","5:1","6:1"],
+   hint:"PU2 requires a different staffing ratio than APU 🤖 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'hard', q:"What is the specification value for bubble issues in PU?", correct:"B",
+   opts:["0.05 mm","0.1 mm","0.15 mm","0.2 mm"],
+   hint:"Bubble defects must be within a very tight tolerance 🔬 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the production ratio of APU to PU-2?", correct:"B",
+   opts:["2","3","4","5"],
+   hint:"APU produces at a fixed multiple of PU-2 output 📊 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the temperature of the oven (PU process)?", correct:"C",
+   opts:["65 ± 5°C","70 ± 5°C","75 ± 5°C","80 ± 5°C"],
+   hint:"Oven temperature must be held steady within tolerance 🌡️ | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'easy', q:"What is the purpose of checking the oven profile?", correct:"B",
+   opts:["To check machine speed","To measure temperature between each zone","To count products inside the oven","To detect glue leakage"],
+   hint:"Oven profiling maps thermal uniformity across all zones 🔥 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the capacity of the oven?", correct:"C",
+   opts:["3.5K","4.0K","4.2K","5.0K"],
+   hint:"Oven capacity determines the batch throughput per cycle 📦 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'easy', q:"What is the purpose of the oven in the PU process?", correct:"C",
+   opts:["To heat glue before dispensing","To cool down coated parts","For curing and drying the coat","To sterilize components"],
+   hint:"The oven finalises the PU coat by removing moisture and hardening it 🌡️ | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'easy', q:"What is the main purpose of RTV in the PU process?", correct:"C",
+   opts:["To measure viscosity","As a cleaning solvent","Mainly used as sealing, molding and release agent","To calibrate the dispensing needle"],
+   hint:"RTV stands for Room Temperature Vulcanizing — versatile material! 🔩 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'hard', q:"What is the maximum gap that PU glue can cover?", correct:"C",
+   opts:["10 microns","15 microns","25 microns","50 microns"],
+   hint:"PU glue bridging capability is measured in microns 🔬 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the purpose of the cross-section check in PU?", correct:"C",
+   opts:["To check surface color uniformity","To verify robot dispensing path","To measure glue thickness between layers","To count dispensing locations"],
+   hint:"Cross-section analysis cuts through the cured glue to inspect it 🔪 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'medium', q:"What is the purpose of the dimension check in PU?", correct:"B",
+   opts:["To verify machine calibration","To measure the glue thickness","To count the needle locations","To check surface quality grade"],
+   hint:"Dimensional inspection ensures glue meets thickness specifications 📐 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'easy', q:"What is the percentage yield for A-bin grade?", correct:"C",
+   opts:["80%","85%","90%","95%"],
+   hint:"A-bin is the top quality grade with the highest yield target 🏆 | Contributed by Balaji Sambath, ME Engineer"},
+  {level:'easy', q:"What is the percentage yield for B-bin grade?", correct:"C",
+   opts:["5%","8%","10%","15%"],
+   hint:"B-bin is the secondary grade with a much smaller yield allowance 📊 | Contributed by Balaji Sambath, ME Engineer"},
+];
+
+// ══ STATE ══
+let currentMode = 'test'; // 'test' | 'learn'
+let currentLevel = 'all';
+let questions = [];
+let currentIndex = 0;
+let learnIndex = 0;
+let score = 0, wrong = 0, xp = 0, streak = 0, hearts = 3;
+let answered = false;
+
+// ══ COUNTS ══
+const counts = {
+  easy: ALL_QUESTIONS.filter(q=>q.level==='easy').length,
+  medium: ALL_QUESTIONS.filter(q=>q.level==='medium').length,
+  hard: ALL_QUESTIONS.filter(q=>q.level==='hard').length,
+  all: ALL_QUESTIONS.length
+};
+
+document.getElementById('easyCount').textContent = counts.easy + ' Qs';
+document.getElementById('mediumCount').textContent = counts.medium + ' Qs';
+document.getElementById('hardCount').textContent = counts.hard + ' Qs';
+document.getElementById('allCount').textContent = counts.all + ' Qs';
+
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function goMode(mode){
+  currentMode = mode;
+  document.getElementById('levelSelectTitle').textContent = mode==='test' ? '🎯 Choose Level — Test Mode' : '📚 Choose Level — Learn Mode';
+  document.getElementById('levelSelectSub').textContent = mode==='test' ? 'Pick a difficulty and start the quiz!' : 'Pick a topic to study at your own pace';
+  showScreen('levelSelect');
+}
+
+function startSession(level){
+  currentLevel = level;
+  const pool = level==='all' ? ALL_QUESTIONS : ALL_QUESTIONS.filter(q=>q.level===level);
+  questions = shuffle(pool);
+  if(currentMode==='learn') startLearn();
+  else startQuiz();
+}
+
+// ══════════ LEARN MODE ══════════
+function startLearn(){
+  learnIndex = 0;
+  showScreen('learn');
+  renderLearnCard();
+}
+
+function renderLearnCard(){
+  const q = questions[learnIndex];
+  const total = questions.length;
+  const pct = ((learnIndex+1)/total)*100;
+  document.getElementById('learnBar').style.width = pct+'%';
+  document.getElementById('learnCounter').textContent = `${learnIndex+1} / ${total}`;
+
+  const levelColors = {easy:'topic-easy',medium:'topic-medium',hard:'topic-hard'};
+  const levelLabels = {easy:'🌱 Easy',medium:'🔥 Medium',hard:'💎 Hard'};
+  const correctText = q.opts[['A','B','C','D'].indexOf(q.correct)];
+
+  document.getElementById('learnBody').innerHTML = `
+    <span class="topic-pill ${levelColors[q.level]}">${levelLabels[q.level]}</span>
+    <div class="learn-card">
+      <div class="learn-q-num">Question ${learnIndex+1} of ${total}</div>
+      <div class="learn-q-text">${q.q}</div>
+      <div class="learn-answer-box">
+        <div>
+          <div class="ans-label">✅ Correct Answer</div>
+          <div class="ans-value">${q.correct}. ${correctText}</div>
+        </div>
+      </div>
+      <div class="learn-note">💡 ${q.hint}</div>
+    </div>
+    <p style="text-align:center;font-size:13px;font-weight:700;color:var(--text-light);margin-top:8px;">
+      Study this carefully, then move to the next!
+    </p>
+  `;
+
+  const prev = document.getElementById('learnPrev');
+  const next = document.getElementById('learnNext');
+  prev.style.opacity = learnIndex===0 ? '0.4' : '1';
+  prev.disabled = learnIndex===0;
+  if(learnIndex===total-1){
+    next.textContent = '✅ Finish';
+    next.className = 'learn-nav-btn learn-finish';
+  } else {
+    next.textContent = 'Next →';
+    next.className = 'learn-nav-btn learn-next';
+  }
+}
+
+function learnNav(dir){
+  if(dir===1 && learnIndex>=questions.length-1){
+    showLearnDone(); return;
+  }
+  learnIndex = Math.max(0, Math.min(questions.length-1, learnIndex+dir));
+  renderLearnCard();
+}
+
+function showLearnDone(){
+  showScreen('results');
+  document.getElementById('resultsHero').className = 'results-hero hero-great';
+  document.getElementById('trophy').textContent = '📖';
+  document.getElementById('resultTitle').textContent = 'STUDIED!';
+  document.getElementById('resultSub').textContent = 'You reviewed all ' + questions.length + ' questions!';
+  document.getElementById('scorePercent').textContent = '100%';
+  document.getElementById('scorePercent').style.color = 'var(--blue)';
+  document.getElementById('correctCount').textContent = questions.length;
+  document.getElementById('wrongCount').textContent = '—';
+  document.getElementById('xpCount').textContent = '0';
+  document.getElementById('congratsMsg').textContent = '🎉 Learning complete!';
+  document.getElementById('congratsSub').textContent = 'Now test yourself in Test Mode to earn XP!';
+}
+
+// ══════════ QUIZ MODE ══════════
+function startQuiz(){
+  currentIndex = 0; score = 0; wrong = 0; xp = 0; streak = 0; hearts = 3; answered = false;
+  showScreen('quiz');
+  // Set progress bar color based on level
+  const fills = {easy:'fill-easy',medium:'fill-medium',hard:'fill-hard',all:'fill-all'};
+  document.getElementById('progressBar').className = 'progress-bar-fill ' + (fills[currentLevel]||'fill-all');
+  renderQuestion();
+}
+
+function retryQuiz(){ startQuiz(); }
+
+function renderQuestion(){
+  answered = false;
+  hideFeedback();
+  const q = questions[currentIndex];
+  const total = questions.length;
+  const pct = (currentIndex/total)*100;
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('qCounter').textContent = `${currentIndex+1}/${total}`;
+  document.getElementById('hearts').textContent = '❤️'.repeat(hearts)+'🖤'.repeat(3-hearts);
+
+  const labels = ['A','B','C','D'];
+  const pillClass = {easy:'pill-easy',medium:'pill-medium',hard:'pill-hard',all:'pill-all'};
+  const pillLabel = {easy:'🌱 Easy',medium:'🔥 Medium',hard:'💎 Hard',all:'🚀 All Levels'};
+
+  let streakHTML = streak>=3 ? `<div class="streak-badge">🔥 ${streak} in a row! Keep going!</div>` : '';
+
+  const opts = q.opts.map((opt,i)=>`
+    <button class="option-btn" onclick="selectAnswer('${labels[i]}',this)" data-label="${labels[i]}">
+      <div class="option-tag">${labels[i]}</div><span>${opt}</span>
+    </button>
+  `).join('');
+
+  document.getElementById('quizBody').innerHTML = `
+    <span class="level-pill ${pillClass[currentLevel]||'pill-all'}">${pillLabel[currentLevel]||'All Levels'}</span>
+    ${streakHTML}
+    <div class="question-label">Question ${currentIndex+1}</div>
+    <div class="question-text">${q.q}</div>
+    <div class="mascot-hint">
+      <div class="mascot">🦉</div>
+      <div class="hint-bubble">${q.hint}</div>
+    </div>
+    <div class="options">${opts}</div>
+  `;
+}
+
+function selectAnswer(chosen, btn){
+  if(answered) return;
+  answered = true;
+  const q = questions[currentIndex];
+  const correct = q.correct;
+  const isCorrect = chosen===correct;
+  document.querySelectorAll('.option-btn').forEach(b=>b.disabled=true);
+  if(isCorrect){
+    btn.classList.add('correct');
+    score++; streak++; xp+=10;
+    showXpToast();
+    showFeedback(true, q.opts[['A','B','C','D'].indexOf(correct)]);
+  } else {
+    btn.classList.add('wrong');
+    streak=0; wrong++;
+    hearts=Math.max(0,hearts-1);
+    document.querySelectorAll('.option-btn').forEach(b=>{
+      if(b.dataset.label===correct) b.classList.add('correct');
+    });
+    showFeedback(false, q.opts[['A','B','C','D'].indexOf(correct)]);
+  }
+}
+
+function showFeedback(isCorrect, correctText){
+  const panel=document.getElementById('feedbackPanel');
+  const icon=document.getElementById('fbIcon');
+  const text=document.getElementById('fbText');
+  const nextBtn=document.getElementById('nextBtn');
+  panel.className='feedback-panel '+(isCorrect?'correct-fb':'wrong-fb');
+  if(isCorrect){
+    const msgs=['Awesome! 🎉','Correct! 🌟','Nailed it! 💪','Brilliant! 🔥','You rock! ⭐','Perfect! 🎯'];
+    icon.textContent='✅';
+    text.innerHTML=`<h3 style="color:var(--green-dark)">${msgs[Math.floor(Math.random()*msgs.length)]}</h3><p>+10 XP earned</p>`;
+    nextBtn.className='next-btn correct-next';
+  } else {
+    icon.textContent='❌';
+    text.innerHTML=`<h3 style="color:var(--red)">Oops! Not quite 😅</h3><p>Answer: <span class="correct-ans">${correctText}</span></p>`;
+    nextBtn.className='next-btn wrong-next';
+  }
+  nextBtn.textContent=currentIndex+1>=questions.length?'FINISH':'NEXT';
+}
+
+function hideFeedback(){ document.getElementById('feedbackPanel').className='feedback-panel'; }
+
+function nextQuestion(){
+  currentIndex++;
+  if(currentIndex>=questions.length) showResults();
+  else { renderQuestion(); document.getElementById('quizBody').scrollTop=0; }
+}
+
+function showXpToast(){
+  const t=document.getElementById('xpToast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),1500);
+}
+
+function showResults(){
+  showScreen('results');
+  const pct=Math.round((score/questions.length)*100);
+  document.getElementById('scorePercent').textContent=pct+'%';
+  document.getElementById('scorePercent').style.color='';
+  document.getElementById('correctCount').textContent=score;
+  document.getElementById('wrongCount').textContent=wrong;
+  document.getElementById('xpCount').textContent=xp;
+
+  let heroClass,trophy,title,sub,msg,subMsg;
+  if(pct>=90){
+    heroClass='hero-legend';trophy='🏆';title='LEGENDARY!';
+    sub='You are an APU & PU2 Expert!';
+    msg='Outstanding! You\'ve mastered the skill matrix.';
+    subMsg='Share your score and inspire your team! 🎉';
+    launchConfetti();
+  } else if(pct>=75){
+    heroClass='hero-great';trophy='🥇';title='EXCELLENT!';
+    sub='Great knowledge of machine processes!';
+    msg='You\'re almost at the top!';subMsg='A little more practice and you\'ll be legendary!';
+    launchConfetti();
+  } else if(pct>=50){
+    heroClass='hero-good';trophy='🥈';title='GOOD JOB!';
+    sub='Solid foundation — keep learning!';
+    msg='You\'re building your expertise.';subMsg='Review the Learning Mode and try again!';
+  } else {
+    heroClass='hero-keep';trophy='📚';title='KEEP GOING!';
+    sub='Every expert started as a beginner!';
+    msg='Use Learning Mode to review the answers.';subMsg='You\'ll get there — don\'t give up! 💪';
+  }
+
+  document.getElementById('resultsHero').className='results-hero '+heroClass;
+  document.getElementById('trophy').textContent=trophy;
+  document.getElementById('resultTitle').textContent=title;
+  document.getElementById('resultSub').textContent=sub;
+  document.getElementById('congratsMsg').textContent=msg;
+  document.getElementById('congratsSub').textContent=subMsg;
+}
+
+// ══ CONFETTI ══
+function launchConfetti(){
+  const canvas=document.getElementById('confetti-canvas');
+  const ctx=canvas.getContext('2d');
+  canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  const particles=Array.from({length:140},()=>({
+    x:Math.random()*canvas.width,y:-20,
+    r:5+Math.random()*6,d:2+Math.random()*3,
+    color:['#58cc02','#ffc800','#1cb0f6','#ff4b4b','#ce82ff','#ff9600'][Math.floor(Math.random()*6)],
+    tilt:Math.random()*10-5,tiltAngle:0,tiltSpeed:0.04+Math.random()*0.1
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    particles.forEach(p=>{
+      p.tiltAngle+=p.tiltSpeed;p.y+=p.d;p.tilt=Math.sin(p.tiltAngle)*12;
+      ctx.beginPath();ctx.fillStyle=p.color;
+      ctx.ellipse(p.x+p.tilt,p.y,p.r,p.r*0.55,p.tiltAngle,0,2*Math.PI);ctx.fill();
+    });
+    frame++;
+    if(frame<220) requestAnimationFrame(draw);
+    else ctx.clearRect(0,0,canvas.width,canvas.height);
+  }
+  draw();
+}
+</script>
+</body>
+</html>
